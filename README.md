@@ -12,7 +12,7 @@ launch the project:
 $ sbt runAll
 ```
 
-With a HTTP client, do multiple HTTP multipart/form-data reqest on `http://localhost:9000/api/files`.
+With an HTTP client, do multiple HTTP multipart/form-data requests on `http://localhost:9000/api/files`.
 Here is an example with `curl`:
 ```
 $ curl -v -H "Expect:" -F files=@/path/to/a/file http://localhost:9000/api/files 
