@@ -8,6 +8,7 @@ scalaVersion in ThisBuild := "2.11.11"
 autoCompilerPlugins := true
 lagomCassandraEnabled in ThisBuild := false
 scalafmtOnCompile in ThisBuild := true
+//lagomServiceGatewayImpl in ThisBuild := "akka-http"
 
 val macwire = (version: String) =>
   Seq(
@@ -57,7 +58,8 @@ def scalaServiceApi(id: String) =
 
 def scalaServiceImpl(id: String) =
   project(id)
-    .enablePlugins(LagomScala, LagomConductRPlugin)
+    .enablePlugins(LagomScala, LagomLog4j2, LagomConductRPlugin)
+    .disablePlugins(LagomLogback)
     .settings(
       libraryDependencies ++= Seq(
         ws,
