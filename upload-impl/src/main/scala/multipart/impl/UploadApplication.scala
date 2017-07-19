@@ -7,6 +7,7 @@ import com.lightbend.lagom.scaladsl.server._
 import com.softwaremill.macwire._
 import com.typesafe.conductr.bundlelib.lagom.scaladsl.ConductRApplicationComponents
 import multipart.api.UploadService
+import play.api.LoggerConfigurator
 import play.api.libs.ws.ahc.AhcWSComponents
 
 abstract class UploadApplication(context: LagomApplicationContext)
@@ -19,8 +20,13 @@ abstract class UploadApplication(context: LagomApplicationContext)
 }
 
 class UploadApplicationLoader extends LagomApplicationLoader {
-  override def loadDevMode(context: LagomApplicationContext): LagomApplication =
+  override def loadDevMode(context: LagomApplicationContext): LagomApplication = {
+    val environment = context.playContext.environment
+    LoggerConfigurator(environment.classLoader).foreach {
+      _.configure(environment)
+    }
     new UploadApplication(context) with LagomDevModeComponents
+  }
 
   override def load(context: LagomApplicationContext): LagomApplication =
     new UploadApplication(context) with ConductRApplicationComponents {
