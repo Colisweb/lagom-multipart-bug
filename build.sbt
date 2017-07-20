@@ -58,8 +58,8 @@ def scalaServiceApi(id: String) =
 
 def scalaServiceImpl(id: String) =
   project(id)
-    .enablePlugins(LagomScala, LagomLog4j2, LagomConductRPlugin)
     .disablePlugins(LagomLogback)
+    .enablePlugins(LagomScala, LagomLog4j2, LagomConductRPlugin)
     .settings(
       libraryDependencies ++= Seq(
         ws,

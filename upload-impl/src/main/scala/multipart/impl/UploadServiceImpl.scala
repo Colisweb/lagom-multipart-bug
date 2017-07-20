@@ -7,15 +7,19 @@ import akka.{Done, NotUsed}
 import com.lightbend.lagom.scaladsl.api.ServiceCall
 import com.lightbend.lagom.scaladsl.server.PlayServiceCall
 import multipart.api.UploadService
-import org.slf4j.{Logger, LoggerFactory}
+import org.apache.logging.log4j.{LogManager, Logger}
 import play.api.libs.streams.Accumulator
 import play.api.mvc.EssentialAction
 
 import scala.concurrent.{ExecutionContext, Future}
 
+object UploadServiceImpl {
+  private final val log: Logger = LogManager.getLogger
+}
+
 final class UploadServiceImpl(implicit ec: ExecutionContext, materializer: Materializer) extends UploadService {
 
-  private final val log: Logger = LoggerFactory.getLogger(classOf[UploadServiceImpl])
+  import UploadServiceImpl._
 
   /**
     * The code come from a James Roper example given here:
