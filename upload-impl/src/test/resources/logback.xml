@@ -1,4 +1,6 @@
 <configuration>
+    <!-- Come from here: http://stackoverflow.com/a/19269816/2431728 -->
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
 
     <conversionRule conversionWord="coloredLevel" converterClass="com.lightbend.lagom.internal.logback.ColoredLevel" />
 
