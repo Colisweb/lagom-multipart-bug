@@ -57,7 +57,7 @@ def scalaServiceApi(id: String) =
 
 def scalaServiceImpl(id: String) =
   project(id)
-    .enablePlugins(LagomScala, LagomConductRPlugin)
+    .enablePlugins(LagomScala)
     .settings(
       libraryDependencies ++= Seq(
         ws,
