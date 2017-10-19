@@ -1,6 +1,6 @@
 package multipart.impl
 
-import java.time.Clock
+import java.time.{Clock, Instant}
 import java.util.UUID
 
 import akka.stream.Materializer
@@ -26,7 +26,9 @@ final class UploadServiceImpl(
 )(implicit ec: ExecutionContext, materializer: Materializer, clock: Clock)
     extends UploadService {
 
-  private final val log: Logger = LoggerFactory.getLogger(classOf[UploadServiceImpl])
+  private val log: Logger = LoggerFactory.getLogger(classOf[UploadServiceImpl])
+
+  private val now: Instant = Instant.now(clock)
 
   /**
     * The code come from a James Roper example given here:
