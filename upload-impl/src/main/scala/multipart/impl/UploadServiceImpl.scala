@@ -1,5 +1,7 @@
 package multipart.impl
 
+import java.time.Clock
+
 import akka.stream.Materializer
 import akka.stream.scaladsl.Sink
 import akka.util.ByteString
@@ -13,7 +15,8 @@ import play.api.mvc.EssentialAction
 
 import scala.concurrent.{ExecutionContext, Future}
 
-final class UploadServiceImpl(implicit ec: ExecutionContext, materializer: Materializer) extends UploadService {
+final class UploadServiceImpl(implicit ec: ExecutionContext, materializer: Materializer, clock: Clock)
+    extends UploadService {
 
   private final val log: Logger = LoggerFactory.getLogger(classOf[UploadServiceImpl])
 
