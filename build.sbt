@@ -72,7 +72,8 @@ def scalaServiceImpl(id: String) =
         ws,
         filters,
         lagomScaladslServer,
-        lagomScaladslKafkaBroker
+        lagomScaladslKafkaBroker,
+        lagomScaladslPersistenceCassandra
       ) ++ macwire("2.2.5") ++ testKitLibs
     )
 
