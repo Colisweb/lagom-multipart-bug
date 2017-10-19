@@ -1,21 +1,29 @@
 package multipart.impl
 
 import java.time.Clock
+import java.util.UUID
 
 import akka.stream.Materializer
 import akka.stream.scaladsl.Sink
 import akka.util.ByteString
 import akka.{Done, NotUsed}
 import com.lightbend.lagom.scaladsl.api.ServiceCall
+import com.lightbend.lagom.scaladsl.api.broker.Topic
+import com.lightbend.lagom.scaladsl.broker.TopicProducer
+import com.lightbend.lagom.scaladsl.persistence.PersistentEntityRegistry
 import com.lightbend.lagom.scaladsl.server.PlayServiceCall
 import multipart.api.UploadService
+import multipart.api.UploadServiceTopics.FirstTopicMessage
+import multipart.impl.UploadEvents.UploadEvent
 import org.slf4j.{Logger, LoggerFactory}
 import play.api.libs.streams.Accumulator
 import play.api.mvc.EssentialAction
 
 import scala.concurrent.{ExecutionContext, Future}
 
-final class UploadServiceImpl(implicit ec: ExecutionContext, materializer: Materializer, clock: Clock)
+final class UploadServiceImpl(
+    registry: PersistentEntityRegistry
+)(implicit ec: ExecutionContext, materializer: Materializer, clock: Clock)
     extends UploadService {
 
   private final val log: Logger = LoggerFactory.getLogger(classOf[UploadServiceImpl])
@@ -57,4 +65,9 @@ final class UploadServiceImpl(implicit ec: ExecutionContext, materializer: Mater
     }
   }
 
+  override def firstTopic(): Topic[FirstTopicMessage] = TopicProducer.singleStreamWithOffset { fromOffset =>
+    registry
+      .eventStream(UploadEvent.Tag, fromOffset)
+      .map(ev => (FirstTopicMessage(id = UUID.randomUUID().toString), ev.offset))
+  }
 }

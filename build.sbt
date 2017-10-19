@@ -70,8 +70,9 @@ def scalaServiceImpl(id: String) =
     .settings(
       libraryDependencies ++= Seq(
         ws,
+        filters,
         lagomScaladslServer,
-        filters
+        lagomScaladslKafkaBroker
       ) ++ macwire("2.2.5") ++ testKitLibs
     )
 
