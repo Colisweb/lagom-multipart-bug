@@ -1,3 +1,4 @@
+import com.lightbend.lagom.sbt.LagomImport
 import com.lightbend.lagom.sbt.LagomImport._
 
 name := "lagom-multipart-bug"
@@ -14,7 +15,15 @@ val macwire = (version: String) =>
     "com.softwaremill.macwire" %% "macros" % version,
     "com.softwaremill.macwire" %% "util"   % version,
     "com.softwaremill.macwire" %% "proxy"  % version
-  )
+)
+
+val testKitLibs = Seq(
+  LagomImport.component("lagom-scaladsl-testkit") % Test,
+  "org.mockito"                                   % "mockito-core" % "2.10.0" % Test,
+  "org.scalacheck"                                %% "scalacheck" % "1.13.5" % Test,
+  "org.scalactic"                                 %% "scalactic" % "3.0.4" % Test,
+  "org.scalatest"                                 %% "scalatest" % "3.0.4" % Test
+)
 
 def project(id: String) =
   Project(id = id, base = file(id))
@@ -63,7 +72,7 @@ def scalaServiceImpl(id: String) =
         ws,
         lagomScaladslServer,
         filters
-      ) ++ macwire("2.2.5")
+      ) ++ macwire("2.2.5") ++ testKitLibs
     )
 
 lazy val uploadApi  = scalaServiceApi("upload-api")
