@@ -29,9 +29,9 @@ trait UploadService extends Service {
       .withCalls(
         restCall(Method.POST, "/api/files", uploadFile _)
       )
-      .withTopics(
-        topic(FIRST_TOPIC, firstTopic())
-      )
+      //.withTopics(
+      //  topic(FIRST_TOPIC, firstTopic())
+      //)
       .withAutoAcl(true)
   }
 
